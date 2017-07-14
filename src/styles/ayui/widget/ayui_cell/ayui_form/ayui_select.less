@@ -1,0 +1,37 @@
+@import "../../../base/fn";
+
+.ay_cell_select {
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+    .ay_select {
+        padding-right: 30px;
+    }
+    .ay_access_icon {
+
+    }
+    .ay_cell_bd{
+        &:after{
+            content: " ";
+            .setArrow_Wap(right, 8px, #C8C8CD, 1px);
+
+            position: absolute;
+            top: 50%;
+            right: @ayCellGapH;
+            margin-top: -3px;
+        }
+    }
+}
+
+.ay_select {
+    -webkit-appearance: none;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
+    font-size: inherit;
+    height: @ayCellHeight;
+    line-height: @ayCellHeight;
+    position: relative;
+    z-index: 1;
+    padding-left: @ayCellGapH;
+}

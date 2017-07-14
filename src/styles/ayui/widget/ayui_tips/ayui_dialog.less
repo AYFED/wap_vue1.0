@@ -1,0 +1,99 @@
+@import "../../base/fn";
+
+@ayDialogBackgroundColor: #FAFAFC;
+@ayDialogLineColor: #D5D5D6;
+@ayDialogLinkColor: #E94709;
+@ayDialogLinkActiveBc: #EEEEEE;
+
+.ay_dialog {
+    position: fixed;
+    z-index: 5000;
+    width: 85%;
+    top: 50%;
+    left: 50%;
+    webkit-transform: translate3d(-50%,-50%,0);
+    transform: translate3d(-50%,-50%,0);
+    -webkit-backface-visibility:hidden;
+    -webkit-perspective:1000px;
+
+    background-color: @ayDialogBackgroundColor;
+    text-align: center;
+    border-radius: 3px;
+    overflow: hidden;
+    .ay_dialog_confirm & {
+        .ay_dialog_hd {
+            padding: 1.2em 20px .5em;
+        }
+        .ay_dialog_bd {
+            text-align: left;
+        }
+    }
+}
+
+.ay_dialog_hd {
+    padding: 1.2em 0 .5em;
+}
+
+.ay_dialog_title {
+    font-weight: 400;
+    font-size: .8rem;
+}
+
+.ay_dialog_bd {
+    padding: 0 20px;
+    font-size: .7rem;
+    color: @globalTextColor;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.ay_dialog_ft {
+    position: relative;
+    line-height: 42px;
+    margin-top: 20px;
+    font-size: .8rem;
+    display: flex;
+    a {
+        display: block;
+        flex: 1;
+        color: @ayDialogLinkColor;
+        text-decoration: none;
+        .setTapColor;
+        &:active {
+            background-color: @ayDialogLinkActiveBc;
+        }
+    }
+    &:after {
+        content: " ";
+        .setTopLine(@ayDialogLineColor);
+    }
+    .ay_dialog_confirm & {
+        a {
+            position: relative;
+            &:after {
+                content: " ";
+                .setLeftLine(@ayDialogLineColor);
+            }
+            &:first-child {
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.ay_btn_dialog {
+    &.default {
+        color: #353535;
+    }
+    &.primary {
+        color: #E94709;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .ay_dialog {
+        width: 35%;
+    }
+}

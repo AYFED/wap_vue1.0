@@ -1,0 +1,95 @@
+@import "../../base/fn";
+
+@lineColor: #E5E5E5;
+@grayColor: #999999;
+
+.ay_media_box {
+    padding: 15px;
+    position: relative;
+    &:before {
+        .setTopLine(@lineColor);
+        left: 15px;
+    }
+    &:first-child {
+        &:before {
+            display: none
+        }
+    }
+
+    a&{
+        color:#000000;
+        .setTapColor;
+        &:active{
+            background-color:#ECECEC;
+        }
+    }
+
+    .ay_media_title {
+        font-weight: 400;
+        font-size: .8rem;
+        .ellipsis();
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    .ay_media_desc {
+        color: @grayColor;
+        font-size: .6rem;
+        line-height: 1.2;
+        .ellipsisLn(2);
+    }
+
+    &.ay_media_text {
+        .ay_media_title {
+            margin-bottom: 8px;
+        }
+        .ay_media_info {
+            margin-top: 15px;
+            padding-bottom: 5px;
+            font-size: .6rem;
+            color: #CECECE;
+            line-height: 1em;
+            list-style: none;
+            overflow: hidden;
+        }
+        .ay_media_info_meta {
+            float: left;
+            padding-right: 1em;
+            &.ay_media_info_meta_extra {
+                padding-left: 1em;
+                border-left: 1px solid #CECECE;
+            }
+        }
+
+    }
+    &.ay_media_appmsg {
+        display: flex;
+        align-items: center;
+        .ay_media_hd {
+            margin-right: .8em;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+        }
+        .ay_media_appmsg_thumb {
+            width: 100%;
+            max-height: 100%;
+            vertical-align: top;
+        }
+        .ay_media_bd {
+            flex: 1;
+            min-width: 0;
+        }
+    }
+    &.ay_media_small_appmsg {
+        padding: 0;
+        .ay_cells {
+            margin-top: 0;
+            &:before {
+                display: none;
+            }
+        }
+        .ay_cells_access {
+        }
+    }
+}

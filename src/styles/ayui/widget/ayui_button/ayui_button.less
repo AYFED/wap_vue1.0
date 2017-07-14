@@ -1,0 +1,61 @@
+@import "../../base/fn";
+// 存在样式优先级的问题，故这里对其他ay_btn的引用放在底部
+// 主要是button.ay_btn在ay_btn_plain下重写border-width
+
+.ay_btn {
+    &.ay_btn_mini {
+        line-height: @ayBtnMiniHeight;
+        font-size: @ayBtnMiniFontSize;
+        padding: 0 .75em;
+        display: inline-block;
+    }
+}
+
+button, input {
+    &.ay_btn {
+        margin: 0 5%;
+        width: 90%;
+        border-width: 0;
+        outline: 0;
+        -webkit-appearance: none;
+        &:focus {
+            outline: 0;
+        }
+    }
+    &.ay_btn_inline,&.ay_btn_mini {
+        width: auto;
+    }
+}
+
+/*gap between btn*/
+.ay_btn + .ay_btn {
+    margin-top: @ayBtnDefaultGap;
+}
+
+.ay_btn.ay_btn_inline + .ay_btn.ay_btn_inline {
+    margin-top: auto;
+    margin-left: @ayBtnDefaultGap;
+}
+
+.ay_btn_area {
+    margin: @ayCellsMarginTop @ayBtnDefaultGap .3em;
+    &.ay_btn_area_inline {
+        display: flex;
+        .ay_btn {
+            margin-top: auto;
+            margin-right: @ayBtnDefaultGap;
+            width: 100%;
+            flex: 1;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+@import "ayui_btn_global";
+@import "ayui_btn_default";
+@import "ayui_btn_primary";
+@import "ayui_btn_warn";
+@import "ayui_btn_disabled";
+@import "ayui_btn_plain";

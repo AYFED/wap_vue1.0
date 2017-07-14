@@ -1,0 +1,35 @@
+@import "../../../base/fn";
+
+.ay_cells_checkbox {
+    .ay_cell_hd {
+        padding-right: @ayCellInnerGapH;
+    }
+    .ay_cell {
+        &:active {
+            background-color: #ECECEC;
+        }
+    }
+    .ay_icon_checked {
+        &:before {
+            content: '\EA01';
+            color: #C9C9C9;
+            font-size: 23px;
+            display: block;
+        }
+    }
+}
+
+// method2 accessbility
+.ay_check {
+    // checkbox
+    .ay_cells_checkbox & {
+        &:checked {
+            & + .ay_icon_checked {
+                &:before {
+                    content: '\EA06';
+                    color: #E94709;
+                }
+            }
+        }
+    }
+}

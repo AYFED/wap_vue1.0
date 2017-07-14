@@ -1,0 +1,28 @@
+@import "../../base/fn";
+
+.ay_btn_plain_primary {
+    color: @ayBtnPrimaryBg;
+    border: 1px solid @ayBtnPrimaryBg;
+    button&, input& {
+        border-width: 1px;
+        background-color: transparent;
+    }
+    &:active {
+        border-color: @ayBtnPrimaryActiveBg;
+    }
+    &:after {
+        border-width: 0;
+    }
+}
+
+.ay_btn_plain_default {
+    color: #5A5A5A;
+    border: 1px solid #5A5A5A;
+    button&, input& {
+        border-width: 1px;
+        background-color: transparent;
+    }
+    &:after {
+        border-width: 0;
+    }
+}

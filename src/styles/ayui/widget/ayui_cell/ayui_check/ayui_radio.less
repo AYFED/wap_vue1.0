@@ -1,0 +1,28 @@
+@import "../../../base/fn";
+
+// method2 accessbility
+.ay_cells_radio{
+    .ay_cell_ft {
+        padding-left: @ayCellInnerGapH;
+    }
+    .ay_cell {
+        &:active {
+            background-color: #ECECEC;
+        }
+    }
+}
+.ay_check {
+    // radio
+    .ay_cells_radio & {
+        &:checked {
+            & + .ay_icon_checked {
+                &:before {
+                    display: block;
+                    content: '\EA08';
+                    color: #E94709;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

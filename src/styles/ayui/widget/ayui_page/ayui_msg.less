@@ -1,0 +1,46 @@
+@import "../../base/fn";
+@import "../ayui_button/ayui_button";
+
+.ay_msg {
+    padding-top: @ayMsgPaddingTop;
+    text-align: center;
+
+    .ay_icon_area {
+        margin-bottom: @ayMsgIconGap;
+    }
+
+    .ay_text_area {
+        margin-bottom: @ayMsgTextGap;
+        padding:0 20px;
+    }
+    .ay_msg_title {
+        margin-bottom: @ayMsgTitleGap;
+        font-weight: 400;
+        font-size: 1rem;
+    }
+    .ay_msg_desc {
+        font-size: .7rem;
+        color: @globalTextColor;
+    }
+
+    .ay_opr_area {
+        margin-bottom: @ayMsgOprGap;
+    }
+
+    .ay_extra_area {
+        margin-bottom: @ayMsgExtraAreaGap;
+        font-size: .7rem;
+        color: @globalTextColor;
+        a{color: @globalLinkColor;}
+    }
+}
+
+@media screen and (min-height: @ayMsgExtraAreaOfMinHeight) {
+    .ay_extra_area {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    }
+}

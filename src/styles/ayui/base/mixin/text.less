@@ -1,0 +1,29 @@
+.ellipsis(@w:auto) {
+    width: @w;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+}
+
+.ellipsisLn(@line) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: @line;
+}
+.text_wrap() {
+    word-wrap:break-word;
+    word-break:break-all;
+}
+
+.clearfix() {
+    &::after{
+        display: block;
+        overflow: hidden;
+        clear: both;
+        height: 0;
+        content: "\0020";
+    }
+}

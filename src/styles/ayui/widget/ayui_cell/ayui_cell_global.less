@@ -1,0 +1,88 @@
+@import "../../base/fn";
+
+.ay_cell {
+    // onepx
+    position: relative;
+    &:before {
+        .setTopLine(@ayCellBorderColor);
+        left: @ayCellGapH;
+    }
+    &:first-child {
+        &:before {
+            display: none;
+        }
+    }
+}
+
+.ay_cells {
+    margin-top: @ayCellsMarginTop;
+    background-color: @ayCellBg;
+    line-height: @ayCellLineHeight;
+    font-size: @ayCellFontSize; //cell中间有效高度23px，跟客户端默认图标尺寸一致
+
+    overflow: hidden; //因为每个cell的border使用before元素left搞的，ie下伪元素的containing block估计跟标准不同，在cell上用oh不生效
+
+    // onepx
+    position: relative;
+    &:before {
+        .setTopLine(@ayCellBorderColor);
+    }
+    &:after {
+        .setBottomLine(@ayCellBorderColor);
+    }
+}
+
+.ay_cells_title {
+    margin-top: .77rem; // 15px - 行高
+    margin-bottom: .4rem; // 8px - 行高
+    padding-left: @ayCellGapV;
+    padding-right: @ayCellGapV;
+    color: @globalTextColor;
+    font-size: @ayCellTipsFontSize;
+
+    & + .ay_cells {
+        margin-top: 0;
+    }
+}
+
+.ay_cells_tips {
+    margin-top: .4rem; // 8px - 行高
+    color: @globalTextColor;
+    padding-left: @ayCellGapH;
+    padding-right: @ayCellGapH;
+    font-size: @ayCellTipsFontSize;
+}
+
+.ay_cell {
+    padding: @ayCellGapH @ayCellGapV;
+    position: relative; //这个是为了兼容cells容器onepx方案被before挡住而做的
+    display: flex;
+    align-items: center;
+}
+
+.ay_cell_ft {
+    width: 30%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: end;
+    -webkit-box-flex: .5;
+    -ms-flex: .5;
+    flex: .5;
+    margin-right: 10px;
+    justify-content: flex-end;
+    color: @globalTextColor;
+  p{
+    width: 100%;
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.ay_cell_primary {
+    flex: 1;
+}
