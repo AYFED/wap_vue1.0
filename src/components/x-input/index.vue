@@ -105,6 +105,7 @@
                     @focus="focusHandler"
                     @blur="blur"
                     v-el:input/>
+            <div v-show="(alertmessageshow&&!valid) && alertmessageswitch" class="x-input-alert-message">{{alertmessage}}</div>
         </div>
         <div class="ay-cell__ft">
             <icon type="clear" v-show="!equalWith && showClear && value && !readonly && !disabled" @click.native="clear"></icon>
@@ -194,6 +195,15 @@ export default {
       type: String,
       default: 'text'
     },
+    alertmessageshow:{
+        type:Boolean,
+        default:false,
+    },
+    alertmessage:{
+        type:String,
+        default:''
+    },
+    alertmessageswitch:false,
     placeholder: String,
     value: [String, Number],
     name: String,
@@ -471,6 +481,11 @@ export default {
         color: inherit;
         height: 1.41176471em;
         line-height: 1.41176471;
+    }
+    .x-input-alert-message{
+        font-size: 15px;
+        line-height: 15px;
+        color: rgb(255, 85, 35);
     }
 }
 </style>
