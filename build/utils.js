@@ -23,6 +23,9 @@ exports.cssLoaders = function (options) {
       } else {
         loader = loader + '-loader'
         extraParamChar = '?'
+        if(loader === 'css-loader'){
+            extraParamChar = '?-autoprefixer&'
+        }
       }
       return loader + (options.sourceMap ? extraParamChar + 'sourceMap' : '')
     }).join('!')
@@ -34,6 +37,7 @@ exports.cssLoaders = function (options) {
     }
   }
 
+  // http://vuejs.github.io/vue-loader/configurations/extract-css.html
   return {
     css: generateLoaders(['css']),
     postcss: generateLoaders(['css']),
@@ -45,11 +49,21 @@ exports.cssLoaders = function (options) {
   }
 }
 
+// Generate loaders for standalone style files (outside of .vue)
 exports.styleLoaders = function (options) {
   var output = []
   var loaders = exports.cssLoaders(options)
   for (var extension in loaders) {
-    var loader = loaders[extension]
+    var loader = loaders[extension].split('!')
+
+    var isPreProcesser = ['less', 'sass', 'scss', 'stylus', 'styl'].some(function (v) {
+        return v === extension
+    })
+
+    if(isPreProcesser){
+      loader.splice(-1,0,'postcss-loader')
+    }
+
     output.push({
       test: new RegExp('\\.' + extension + '$'),
       loader: loader

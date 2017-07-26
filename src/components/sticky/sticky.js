@@ -1,14 +1,15 @@
 // http://efe.baidu.com/blog/position-sticky/
 var tag = true
+
 // 检测iOS版本大于等于6
-function gtIOS6 () {
+function gtIOS6() {
   var userAgent = window.navigator.userAgent
   var ios = userAgent.match(/(iPad|iPhone|iPod)\s+OS\s([\d_.]+)/)
   return ios && ios[2] && (parseInt(ios[2].replace(/_/g, '.'), 10) >= 6)
 }
 
 // 判断是否支持sticky属性
-function isSupportSticky () {
+function isSupportSticky() {
   var prefixTestList = ['', '-webkit-', '-ms-', '-moz-', '-o-']
   var stickyText = ''
   for (var i = 0; i < prefixTestList.length; i++) {
@@ -49,29 +50,29 @@ export default function (nav, options = {}) {
     nav.classList.add('ay-relative')
     scrollBox.addEventListener('scroll', function () {
       const distance = getTop()
-      if(tag){
+      if (tag) {
         navOffsetY = nav.offsetTop - offset
         tag = false
       }
-      if(document.querySelector('.ay-fixed')){
-        if (nav.classList.toString().indexOf("ay-fixed") == -1) {
-          if(distance + document.querySelector('.ay-fixed').clientHeight*document.querySelectorAll('.ay-fixed').length >= navOffsetY){
+      if (document.querySelector('.ay-fixed')) {
+        if (nav.classList.toString().indexOf('ay-fixed') === -1) {
+          if (distance + document.querySelector('.ay-fixed').clientHeight * document.querySelectorAll('.ay-fixed').length >= navOffsetY) {
             nav.style.top = offset + 'px'
             nav.classList.add('ay-fixed')
             nav.classList.remove('ay-relative')
-          }else {
+          } else {
             //
           }
-        }else{
-          if(distance + document.querySelector('.ay-fixed').clientHeight*document.querySelectorAll('.ay-fixed').length >= navOffsetY){
+        } else {
+          if (distance + document.querySelector('.ay-fixed').clientHeight * document.querySelectorAll('.ay-fixed').length >= navOffsetY) {
             //
-          }else {
+          } else {
             nav.style.top = '0px'
             nav.classList.remove('ay-fixed')
             nav.classList.add('ay-relative')
           }
         }
-      }else{
+      } else {
         if (distance >= navOffsetY) {
           nav.style.top = offset + 'px'
           nav.classList.add('ay-fixed')

@@ -6,7 +6,7 @@ Vue.use(Vuex)
 const state = {
   isLoading: false,
   direction: 'forward',
-  shopdir:''
+  shopdir: ''
 }
 export default new Vuex.Store({
   state,

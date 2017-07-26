@@ -19,7 +19,7 @@ export default {
   components: {
     Badge
   },
-  //mixins: [childMixin],
+  mixins: [childMixin],
   props: {
     showDot: {
       type: Boolean,

@@ -17,8 +17,8 @@ module.exports = merge(baseWebpackConfig, {
     devtool: config.build.productionSourceMap ? '#source-map' : false,
     output: {
         path: config.build.assetsRoot,
-        filename: utils.assetsPath('js/[name].js'),
-        chunkFilename: utils.assetsPath('js/[id].js')
+        filename: utils.assetsPath('js/[name].[chunkhash].js'),
+        chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
     },
     vue: {
         loaders: utils.cssLoaders({
@@ -27,6 +27,7 @@ module.exports = merge(baseWebpackConfig, {
         })
     },
     plugins: [
+        // http://vuejs.github.io/vue-loader/workflow/production.html
         new webpack.DefinePlugin({
             'process.env': env
         }),
@@ -40,15 +41,17 @@ module.exports = merge(baseWebpackConfig, {
         new ExtractTextPlugin(utils.assetsPath('css/[name].css')),
         // 公共模块的提取
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor', // 生成文件的名字
+            // 这是 common chunk 的名称。已经存在的 chunk 可以通过传入一个已存在的 chunk 名称而被选择。
+            // 如果一个字符串数组被传入，这相当于插件针对每个 chunk 名被多次调用
+            // 如果该选项被忽略，同时 `options.async` 或者 `options.children` 被设置，所有的 chunk 都会被使用，否则 `options.filename` 会用于作为 chunk 名。
+            name: 'vendor',
+            // 在传入  公共chunk(commons chunk) 之前所需要包含的最少数量的 chunks 。
+            // 数量必须大于等于2，或者少于等于 chunks的数量
+            // 传入 `Infinity` 会马上生成 公共chunk，但里面没有模块。
+            // 你可以传入一个 `function` ，以添加定制的逻辑（默认是 chunk 的数量）
             minChunks: function(module, count) {
-                // any required modules inside node_modules are extracted to vendor
                 return (
-                    module.resource &&
-                    /\.js$/.test(module.resource) &&
-                    module.resource.indexOf(
-                        path.join(__dirname, '../node_modules')
-                    ) === 0
+                    module.resource && /\.js$/.test(module.resource) && module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0 && count === 3
                 )
             }
         }),
@@ -56,6 +59,8 @@ module.exports = merge(baseWebpackConfig, {
         // prevent vendor hash from being updated whenever app bundle is updated
         new webpack.optimize.CommonsChunkPlugin({
             name: 'manifest',
+            // 通过 chunk name 去选择 chunks 的来源。chunk 必须是  公共chunk 的子模块。
+            // 如果被忽略，所有的，所有的 入口chunk (entry chunk) 都会被选择。
             chunks: ['vendor']
         })
     ]
