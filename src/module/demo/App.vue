@@ -13,15 +13,15 @@
 
       <!--bottom slot-->
       <tabbar class="ay-demo-tabbar" icon-class="ay-center" v-show="!isTabbarDemo" slot="bottom">
-        <tabbar-item v-link="{path:'/flight/demo.html/'}" :selected="route.path === '/'">
+        <tabbar-item v-link="{path:'/demo.html'}" :selected="route.path === '/demo.html'">
           <span class="demo-icon-22 ay-demo-tabbar-icon-home" slot="icon">&#xe639;</span>
           <span slot="label">首页</span>
         </tabbar-item>
-        <tabbar-item v-link="{path:'/flight/demo.html/demo'}" :selected="isDemo" badge="9">
+        <tabbar-item v-link="{path:'/demo.html/demo'}" :selected="isDemo" badge="9">
           <span class="demo-icon-22" slot="icon">&#xe633;</span>
           <span slot="label"><span v-if="componentName" class="ay-demo-tabbar-component">{{componentName}}</span><span v-else>示例</span></span>
         </tabbar-item>
-        <tabbar-item v-link="{path:'/flight/demo.html/project/donate'}" :selected="route.path === '/project/donate'" show-dot>
+        <tabbar-item v-link="{path:'/demo.html/project/donate'}" :selected="route.path === '/project/donate'" show-dot>
           <span class="demo-icon-22" slot="icon">&#xe630;</span>
           <span slot="label">更新</span>
         </tabbar-item>
@@ -92,10 +92,16 @@ export default {
       this.$refs.viewBox.$els.viewBoxBody.scrollTop = 0
     }
   },
+  events: {
+    'on-click-back' () {
+      window.history.back()
+    }
+  },
   computed: {
     leftOptions () {
       return {
-        showBack: this.route.path !== '/'
+        showBack: true,
+        preventGoBack: true
       }
     },
     headerTransition () {
@@ -103,19 +109,21 @@ export default {
     },
     componentName () {
       const parts = this.route.path.split('/')
-      if (/component/.test(this.route.path) && parts[2]) return parts[2]
+      if (/component/.test(this.route.path) && parts[parts.length-1]) return parts[parts.length-1]
     },
     isDemo () {
+      console.log(this.route.path)
+      if(this.route.path==='/demo.html') return false
       return /component|demo/.test(this.route.path)
     },
     isTabbarDemo () {
       return /tabbar/.test(this.route.path)
     },
     title () {
-      if (this.route.path === '/') return '首页'
+      if (this.route.path === '/demo.html') return '首页'
       if (this.route.path === '/project/donate') return '更新'
-      if (this.route.path === '/demo') return '示例'
-      return this.componentName ? `示例/${this.componentName}` : '示例/其他'
+      if (this.route.path === '/demo.html/demo') return '示例'
+      return this.componentName ? `${this.componentName}` : '示例/其他'
     }
   }
 }
