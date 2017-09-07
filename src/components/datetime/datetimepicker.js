@@ -1,5 +1,5 @@
 import Scroller from '../picker/scroller'
-import {each, trimZero, addZero, getMaxDay, parseRow, parseDate, getElement, toElement, removeElement} from './util'
+import { each, trimZero, addZero, getMaxDay, parseRow, parseDate, getElement, toElement, removeElement } from './util'
 
 const MASK_TEMPLATE = '<div class="dp-mask"></div>'
 
@@ -43,10 +43,10 @@ var DEFAULT_CONFIG = {
   currentMonth: NOW.getMonth() + 1,
   minYear: 1900,
   maxYear: 2030,
-  minMonth: 1,
-  maxMonth: 12,
-  minDay: 1,
-  maxDay: 1,
+  minMonth:1,
+  maxMonth:12,
+  minDay:1,
+  maxDay:1,
   yearRow: '{value}',
   monthRow: '{value}',
   dayRow: '{value}',
@@ -54,29 +54,24 @@ var DEFAULT_CONFIG = {
   minuteRow: '{value}',
   format: 'YYYY-MM-DD',
   value: NOW.getFullYear() + '-' + (NOW.getMonth() + 1) + '-' + NOW.getDate(),
-  onSelect() {
-  },
-  onConfirm() {
-  },
-  onClear() {
-  },
-  onShow() {
-  },
-  onHide() {
-  },
+  onSelect () {},
+  onConfirm () {},
+  onClear () {},
+  onShow () {},
+  onHide () {},
   confirmText: 'ok',
   clearText: '',
   cancelText: 'cancel'
 }
 
-function renderScroller(el, data, value, fn) {
+function renderScroller (el, data, value, fn) {
   var scroller = new Scroller(el, {
     data: data,
     defaultValue: value,
     onSelect: fn
   })
 
-  setTimeout(() => {
+  setTimeout(()=>{
     document.querySelectorAll('.dp-header')[0].addEventListener('touchmove', function (e) {
       e.preventDefault()
     }, false)
@@ -85,7 +80,7 @@ function renderScroller(el, data, value, fn) {
   return scroller
 }
 
-function showMask() {
+function showMask () {
   if (!MASK) {
     MASK = toElement(MASK_TEMPLATE)
     document.body.appendChild(MASK)
@@ -102,7 +97,7 @@ function showMask() {
   }, 0)
 }
 
-function hideMask() {
+function hideMask () {
   if (!MASK) {
     return
   }
@@ -115,7 +110,7 @@ function hideMask() {
   }, SHOW_ANIMATION_TIME)
 }
 
-function DatetimePicker(config) {
+function DatetimePicker (config) {
   var self = this
   self.config = {}
   self.value = config.value || ''
@@ -138,7 +133,7 @@ function DatetimePicker(config) {
 
 DatetimePicker.prototype = {
 
-  _show(newValueMap) {
+  _show (newValueMap) {
     var self = this
 
     self.container.style.display = 'block'
@@ -152,7 +147,7 @@ DatetimePicker.prototype = {
       self.container.style.transform = 'translateY(0)'
     }, 0)
   },
-  show(value) {
+  show (value) {
     var self = this
     var config = self.config
     CURRENT_PICKER = self
@@ -183,7 +178,7 @@ DatetimePicker.prototype = {
           return
         }
         var data
-        data = self._makeData(type, trimZero(newValueMap.year), trimZero(newValueMap.month))
+        data = self._makeData(type,trimZero(newValueMap.year), trimZero(newValueMap.month))
 
         self[type + 'Scroller'] = renderScroller(div, data, trimZero(newValueMap[type]), function (currentValue) {
           config.onSelect.call(self, type, currentValue)
@@ -244,7 +239,7 @@ DatetimePicker.prototype = {
     config.onShow.call(self)
   },
 
-  _makeData(type, year, month) {
+  _makeData (type, year, month) {
     var config = this.config
     var valueMap = this.valueMap
     var list = TYPE_MAP[type]
@@ -256,24 +251,24 @@ DatetimePicker.prototype = {
       min = config.minYear
       max = config.maxYear
     } else if (type === 'month') {
-      if (year == config.maxYear) {
+      if(year==config.maxYear){
         min = 1
         max = config.maxMonth
-      } else if (year == config.minYear) {
+      }else if(year==config.minYear){
         min = config.minMonth
         max = 12
-      } else {
+      }else{
         min = 1
         max = 12
       }
     } else if (type === 'day') {
-      if (year === config.maxYear && month >= config.maxMonth) {
+      if(year==config.maxYear && month>=config.maxMonth){
         min = 1
         max = config.maxDay
-      } else if (year === config.minYear && month <= config.minMonth) {
+      }else if(year==config.minYear && month<=config.minMonth){
         min = config.minDay
         max = getMaxDay(year, month)
-      } else {
+      }else{
         min = 1
         max = getMaxDay(year, month)
       }
@@ -300,7 +295,7 @@ DatetimePicker.prototype = {
     return data
   },
 
-  _setMonthScroller(year, month, day) {
+  _setMonthScroller (year, month, day) {
     var self = this
     day = maxDay
     var maxDay = getMaxDay(year, month)
@@ -324,7 +319,7 @@ DatetimePicker.prototype = {
     })
   },
 
-  _setDayScroller(year, month, day) {
+  _setDayScroller (year, month, day) {
     var self = this
     var maxDay = getMaxDay(year, month)
     if (day > maxDay) {
@@ -333,17 +328,17 @@ DatetimePicker.prototype = {
     self.dayScroller.destroy()
     var div = self.find('[data-role=day]')
 
-    var currentMonth = self.monthScroller ? self.monthScroller.value : self.config.currentMonth
+    var currentMonth = self.monthScroller ? self.monthScroller.value : config.currentMonth
     self.dayScroller = renderScroller(div, self._makeData('day', year, currentMonth), day, function (currentValue) {
       self.config.onSelect.call(self, 'day', currentValue)
     })
   },
 
-  find(selector) {
+  find (selector) {
     return this.container.querySelector(selector)
   },
 
-  hide() {
+  hide () {
     var self = this
     self.container.style.removeProperty('transform')
     self.container.style.removeProperty('-webkit-transform')
@@ -357,11 +352,11 @@ DatetimePicker.prototype = {
     self.config.onHide.call(self)
   },
 
-  select(type, value) {
+  select (type, value) {
     this[type + 'Scroller'].select(value, false)
   },
 
-  destroy() {
+  destroy () {
     var self = this
     removeElement(MASK)
     removeElement(self.container)
@@ -369,13 +364,13 @@ DatetimePicker.prototype = {
     self.container = null
   },
 
-  getValue() {
+  getValue () {
     var self = this
     var config = self.config
 
     var value = config.format
 
-    function formatValue(scroller, expr1, expr2) {
+    function formatValue (scroller, expr1, expr2) {
       if (scroller) {
         var val = scroller.value
         if (expr1) {
@@ -394,7 +389,7 @@ DatetimePicker.prototype = {
     return value
   },
 
-  confirm() {
+  confirm () {
     var self = this
     var value = self.getValue()
     this.value = value
@@ -406,7 +401,7 @@ DatetimePicker.prototype = {
     self.hide()
   },
 
-  clear() {
+  clear () {
     var self = this
     var value = self.getValue()
 

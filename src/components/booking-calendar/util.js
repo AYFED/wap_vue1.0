@@ -112,12 +112,12 @@ function getCalendarInfo(cData,daysInfoKey,todaydate,_usearr){
 function getShowMonthList(_arr,_useData){
     let _ob = {}
     let _temp = []
-    if(!_useData || !_useData.length){
+    if(!_useData){
       //没有数据传入默认显示当前月
         let _startmonth = (new Date()).getMonth()+1
         for(let ll=0;ll<5;ll++){
             _temp.push(_startmonth+ll)
-        }
+        }/*0821*/
     }else{
         for(let pp=0,qq=_arr.length;pp<qq;pp++){
             _ob[_arr[pp].getFullYear()+''+(_arr[pp].getMonth()+1)] = _arr[pp].getMonth()+1

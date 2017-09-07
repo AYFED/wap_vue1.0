@@ -27,8 +27,8 @@ export default {
       default: true
     }
   },
-  methods: {
-    hideOnBlur () {
+  methods:{
+    hideOnBlur (){
       this.$emit('on-hide')
     }
   },

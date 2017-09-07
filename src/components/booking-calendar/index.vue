@@ -1,6 +1,6 @@
 <template>
 <div class="booking-calendar" :class="{'is-weekend-highlight': highlightWeekend}" >
-    <div class="alertContent" v-show="alertShow&&alertable" transition="expand">{{alertText}}</div>
+    <div class="alertContent" v-show="(alertShow&&alertable) || forceshowalert" transition="expand">{{alertText}}</div>
     <table>
       <thead v-show="!hideWeekList">
         <tr class="calendar-month-bar">
@@ -207,6 +207,7 @@ export default {
   padding-left:20px;
   font-weight:100;
   line-height: 38px;
+  z-index: 9;
 }
 .calendar-month-bar{
   background-color: #F5F5F5;
@@ -228,7 +229,7 @@ export default {
   height:30px;
 }
 .calendar-month-bar span,.calendar-weeks-bar span{
-  font-weight:100;
+  font-weight:300;
 }
 
 .calendar-month-bar .weekend span,.calendar-weeks-bar .weekend span{
@@ -396,7 +397,7 @@ export default {
   height:60px;
 }
 .booking-calendar td b{
-  font-weight:100;
+  font-weight:300;
   font-size:10px;
   display:block;
   height:10px;

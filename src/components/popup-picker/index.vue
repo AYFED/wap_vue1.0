@@ -1,172 +1,166 @@
 <template>
   <cell v-show="showCell" :title="title" primary="content" is-link :inline-desc="inlineDesc" @click="onClick">
     <span class="ay-popup-picker-value" v-if="!showName && value.length">{{value | array2string}}</span>
-    <span class="ay-popup-picker-value" v-else="showName && value.length">{{value | value2name
-    data}}</span>
+    <span class="ay-popup-picker-value" v-else="showName && value.length">{{value | value2name data}}</span>
     <span v-if="!value.length && placeholder" v-html="placeholder"></span>
   </cell>
-  <popup :show.sync="show" class="ay-popup-picker" :id="'ay-popup-picker-'+uuid" @on-hide="onPopupHide"
-         @on-show="$emit('on-show')">
+  <popup :show.sync="show" class="ay-popup-picker" :id="'ay-popup-picker-'+uuid" @on-hide="onPopupHide" @on-show="$emit('on-show')">
     <div class="ay-popup-picker-container">
       <div class="ay-popup-picker-header" @touchmove.prevent>
         <flexbox>
-          <flexbox-item style="text-align:left;padding-left:15px;line-height:44px;" @click="onHide(false)">取消
-          </flexbox-item>
-          <flexbox-item style="text-align:right;padding-right:15px;line-height:44px;" @click="onHide(true)">完成
-          </flexbox-item>
+          <flexbox-item style="text-align:left;padding-left:15px;line-height:44px;" @click="onHide(false)">取消</flexbox-item>
+          <flexbox-item style="text-align:right;padding-right:15px;line-height:44px;" @click="onHide(true)">完成</flexbox-item>
         </flexbox>
       </div>
       <picker
-        :data="data"
-        :value.sync="tempValue"
-        @on-change="onPickerChange"
-        :columns="columns"
-        :fixed-columns="fixedColumns"
-        :container="'#ay-popup-picker-'+uuid"></picker>
+      :data="data"
+      :value.sync="tempValue"
+      @on-change="onPickerChange"
+      :columns="columns"
+      :fixed-columns="fixedColumns"
+      :container="'#ay-popup-picker-'+uuid"></picker>
     </div>
   </popup>
 </template>
 
 <script>
-  import Picker from '../picker'
-  import Cell from '../cell'
-  import Popup from '../popup'
-  import {Flexbox, FlexboxItem} from '../flexbox'
-  import array2string from '../../filters/array2String'
-  import value2name from '../../filters/value2name'
-  import uuidMixin from '../../libs/mixin_uuid'
+import Picker from '../picker'
+import Cell from '../cell'
+import Popup from '../popup'
+import { Flexbox, FlexboxItem } from '../flexbox'
+import array2string from '../../filters/array2String'
+import value2name from '../../filters/value2name'
+import uuidMixin from '../../libs/mixin_uuid'
 
-  const getObject = function (obj) {
-    return JSON.parse(JSON.stringify(obj))
-  }
+const getObject = function (obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
 
-  export default {
-    mixins: [uuidMixin],
-    components: {
-      Picker,
-      Cell,
-      Popup,
-      Flexbox,
-      FlexboxItem
+export default {
+  mixins: [uuidMixin],
+  components: {
+    Picker,
+    Cell,
+    Popup,
+    Flexbox,
+    FlexboxItem
+  },
+  filters: {
+    array2string,
+    value2name
+  },
+  props: {
+    title: String,
+    data: {
+      type: Array,
+      default () {
+        return []
+      }
     },
-    filters: {
-      array2string,
-      value2name
+    placeholder: String,
+    columns: {
+      type: Number,
+      default: 0
     },
-    props: {
-      title: String,
-      data: {
-        type: Array,
-        default() {
-          return []
-        }
-      },
-      placeholder: String,
-      columns: {
-        type: Number,
-        default: 0
-      },
-      fixedColumns: {
-        type: Number,
-        default: 0
-      },
-      value: {
-        type: Array,
-        default() {
-          return []
-        }
-      },
-      showName: Boolean,
-      inlineDesc: String,
-      showCell: {
-        type: Boolean,
-        default: true
-      },
-      show: Boolean
+    fixedColumns: {
+      type: Number,
+      default: 0
     },
-    methods: {
-      getNameValues() {
-        return value2name(this.value, this.data)
-      },
-      onClick() {
-        this.show = true
-      },
-      onHide(type) {
-        this.show = false
-        if (type) {
-          this.closeType = true
-          if (!this.tempValue[0]) {
-            this.tempValue[0] = this.data[0].value
-            if (!this.tempValue[1]) {
-              for (var i = 0; i < this.data.length; i++) {
-                if (this.data[i].parent && this.data[i].parent == this.data[0].value) {
-                  this.tempValue[1] = this.data[i].value
-                  this.value = getObject(this.tempValue)
-                  return false
-                }
+    value: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
+    showName: Boolean,
+    inlineDesc: String,
+    showCell: {
+      type: Boolean,
+      default: true
+    },
+    show: Boolean
+  },
+  methods: {
+    getNameValues () {
+      return value2name(this.value, this.data)
+    },
+    onClick () {
+      this.show = true
+    },
+    onHide (type) {
+      this.show = false
+      if (type) {
+        this.closeType = true
+        if(!this.tempValue[0]){
+          this.tempValue[0]= this.data[0].value
+          if(!this.tempValue[1]){
+          	for(var i=0;i<this.data.length;i++){
+              if(this.data[i].parent&&this.data[i].parent==this.data[0].value){
+                this.tempValue[1]= this.data[i].value
+                this.value = getObject(this.tempValue)
+                return false
               }
             }
           }
-          this.value = getObject(this.tempValue)
         }
-        if (!type) {
-          this.closeType = false
-          if (this.value.length > 0) {
-            this.tempValue = getObject(this.value)
-          }
-        }
-      },
-      onPopupHide(val) {
+        this.value = getObject(this.tempValue)
+      }
+      if (!type) {
+        this.closeType = false
         if (this.value.length > 0) {
           this.tempValue = getObject(this.value)
         }
-        this.$emit('on-hide', this.closeType)
-      },
-      onPickerChange(val) {
-        if (JSON.stringify(this.value) !== JSON.stringify(val)) {
-          // if has value, replace it
-          if (this.value.length) {
-            const nowData = JSON.stringify(this.data)
-            if (nowData !== this.currentData && this.currentData !== '[]') {
-              this.value = getObject(val)
-            }
-            this.currentData = nowData
-          } else { // if no value, stay quiet
-            // if set to auto update, do update the value
+      }
+    },
+    onPopupHide (val) {
+      if (this.value.length > 0) {
+        this.tempValue = getObject(this.value)
+      }
+      this.$emit('on-hide', this.closeType)
+    },
+    onPickerChange (val) {
+      if (JSON.stringify(this.value) !== JSON.stringify(val)) {
+        // if has value, replace it
+        if (this.value.length) {
+          const nowData = JSON.stringify(this.data)
+          if (nowData !== this.currentData && this.currentData !== '[]') {
+            this.value = getObject(val)
           }
-        }
-        this.$emit('on-shadow-change', getObject(val))
-      }
-    },
-    watch: {
-      value(val) {
-        if (JSON.stringify(val) !== JSON.stringify(this.tempValue)) {
-          this.tempValue = getObject(val)
+          this.currentData = nowData
+        } else { // if no value, stay quiet
+          // if set to auto update, do update the value
         }
       }
-    },
-    data() {
-      return {
-        tempValue: getObject(this.value),
-        closeType: false,
-        currentData: JSON.stringify(this.data) // used for detecting if it is after data change
+      this.$emit('on-shadow-change', getObject(val))
+    }
+  },
+  watch: {
+    value (val) {
+      if (JSON.stringify(val) !== JSON.stringify(this.tempValue)) {
+        this.tempValue = getObject(val)
       }
     }
+  },
+  data () {
+    return {
+      tempValue: getObject(this.value),
+      closeType: false,
+      currentData: JSON.stringify(this.data) // used for detecting if it is after data change
+    }
   }
+}
 </script>
 
 <style>
-  .ay-popup-picker {
-    border-top: 1px solid #E94709;
-  }
-
-  .ay-popup-picker-header {
-    height: 44px;
-    color: #E94709;
-  }
-
-  .ay-popup-picker-value {
-    display: inline-block;
-    font-size: .6rem;
-  }
+.ay-popup-picker {
+  border-top: 1px solid #E94709;
+}
+.ay-popup-picker-header {
+  height: 44px;
+  color: #E94709;
+}
+.ay-popup-picker-value {
+  display: inline-block;
+  font-size:.6rem;
+}
 </style>

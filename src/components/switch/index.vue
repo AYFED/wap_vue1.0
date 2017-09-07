@@ -4,7 +4,7 @@
       <label class="ay_label" :style="labelStyle" v-html="title"></label>
       <inline-desc v-if="inlineDesc">{{inlineDesc}}</inline-desc>
     </div>
-    <div class="ay_cell_ft">
+    <div class="ay_cell_ft" @touchStart="mstart" @touchMove="moving">
       <input class="ay_switch" type="checkbox" :disabled="disabled" v-model="value"/>
     </div>
   </div>
@@ -25,6 +25,40 @@ export default {
         width
       }
     }
+  },
+  data () {
+      return {
+          startx: 0,
+          moveEndx: 0,
+          flag:false,
+      }
+  },
+  methods:{
+      mstart:function(e){
+          var u = navigator.userAgent;
+          if(u.indexOf('iPhone')>-1){
+              e.preventDefault()
+          }
+          this.startx = e.changedTouches[0].pageX
+      },
+      moving:function(e){
+          if(!this.disabled){
+              var u = navigator.userAgent;
+              if(u.indexOf('iPhone')>-1){
+                  e.preventDefault()
+              }
+              this.moveEndx = e.changedTouches[0].pageX
+              if((this.moveEndx - this.startx)>0){
+                  if(!this.value){
+                      this.value = true
+                  }
+              }else if((this.moveEndx - this.startx)<0){
+                  if(this.value){
+                      this.value = false
+                  }
+              }
+          }
+      }
   },
   props: {
     title: {

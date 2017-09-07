@@ -76,6 +76,10 @@ export default () => ({
       type: Boolean,
       default: false
   },
+  forceshowalert: {
+      type: Boolean,
+      default: false
+  },
   afterCellClickfunc:{
       type: Function,
       default: function() {}
@@ -90,6 +94,6 @@ export default () => ({
   },
   disableUse:{
     type:Boolean,
-      default:true
+    default:true
   }
 })

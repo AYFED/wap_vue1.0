@@ -109,9 +109,9 @@ export default {
       type: Boolean,
       default: false
     },
-    loop: {
-      type: Boolean,
-      default: false
+    loop:{
+      type:Boolean,
+      default:false
     },
     interval: {
       type: Number,

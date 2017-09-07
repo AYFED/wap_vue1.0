@@ -6,7 +6,7 @@
         <!--<div class="ay_loading_leaf" v-for="i in 12" :class="['ay_loading_leaf_' + i]"></div>-->
       <!--</div>-->
       <div class="loading-box">
-        <img name="img" src="http://pic1.aoyou.com/load/loading3.gif" />
+        <img name="img" src="//pic1.aoyou.com/load/loading.gif" />
       </div>
       <!--<p class="ay_toast_content">{{text}}<slot></slot></p>-->
     </div>
@@ -51,7 +51,7 @@ export default {
   img{
     display: block;
     margin: 0 auto;
-    width: 120px;/*0414 F*/
+    width: 60px;
     border: none;
   }
 }/*0228 F*/

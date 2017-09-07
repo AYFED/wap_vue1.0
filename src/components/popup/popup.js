@@ -10,10 +10,8 @@ const popupDialog = function (option) {
       container: document.querySelector(option.input) || '',
       innerHTML: option.innerHTML || '',
       hideOnBlur: option.hideOnBlur,
-      onOpen: option.onOpen || function () {
-      },
-      onClose: option.onClose || function () {
-      }
+      onOpen: option.onOpen || function () {},
+      onClose: option.onClose || function () {}
     }
   }
   if (!!document.querySelectorAll('.ay-popup-mask').length <= 0) {
@@ -48,9 +46,7 @@ popupDialog.prototype.onClickMask = function () {
 
 popupDialog.prototype._bindEvents = function () {
   this.params.hideOnBlur && this.mask.addEventListener('click', this.onClickMask.bind(this), false)
-  this.params.hideOnBlur && this.mask.addEventListener('touchmove', function (event) {
-    event.preventDefault()
-  }, false)
+  this.params.hideOnBlur && this.mask.addEventListener('touchmove', function(event){event.preventDefault()}, false)
 }
 
 popupDialog.prototype.show = function () {
