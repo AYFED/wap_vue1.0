@@ -6,7 +6,7 @@ export function monthNumBtTow(str1,_arr,cidx){
     let _toDateMonth = _toDate.getMonth()
     if(_toDate>=(new Date()) && _arr && _arr.length>0){
       for(let i=0;i<_arr.length;i++){
-        if(_arr[i] == _toDateMonth+1 ){
+        if(_arr[i].m == _toDateMonth+1 ){
             m = i
             break;
         }
@@ -108,24 +108,48 @@ function getCalendarInfo(cData,daysInfoKey,todaydate,_usearr){
   return re
 }
 
+//冒泡排序
+function bubbleSort(arr){
+	var len=arr.length,j;
+	var temp;
+	while(len>1){
+		for(j=0;j<len-1;j++){
+			if(arr[j].date>arr[j+1].date){
+				temp=arr[j];
+				arr[j]=arr[j+1];
+				arr[j+1]=temp;
+			}
+		}
+		len--;
+	}
+	return arr;
+}
+
 //获取显示的月份
 function getShowMonthList(_arr,_useData){
     let _ob = {}
     let _temp = []
     if(!_useData){
       //没有数据传入默认显示当前月
-        let _startmonth = (new Date()).getMonth()+1
+        let thd = new Date()
+        let _startmonth = thd.getMonth()+1
         for(let ll=0;ll<5;ll++){
-            _temp.push(_startmonth+ll)
+            _temp.push({y:thd.getFullYear(),m:_startmonth+ll})
         }/*0821*/
     }else{
         for(let pp=0,qq=_arr.length;pp<qq;pp++){
-            _ob[_arr[pp].getFullYear()+''+(_arr[pp].getMonth()+1)] = _arr[pp].getMonth()+1
+            let usekey = _arr[pp].getFullYear()+''+(_arr[pp].getMonth()+1)
+            _ob[usekey] = {month:_arr[pp].getMonth()+1,date:_arr[pp],year:_arr[pp].getFullYear()}
         }
         if(_ob){
-            for(var _qq in _ob){
-                _temp.push(_ob[_qq])
+            var _temparr = []
+            for(var _cd in _ob){
+	            _temparr.push(_ob[_cd])
             }
+	        _temparr = bubbleSort(_temparr)
+	        _temparr.forEach(function(ob){
+		        _temp.push({m:ob.month,y:ob.year})
+            })
         }
     }
     //最多显示7个月的数据
@@ -134,6 +158,7 @@ function getShowMonthList(_arr,_useData){
 
 export function getDays ({year, month, value, isRange = false, rangeBegin, rangeEnd, returnSixRows = true, disablePast = false, disableFuture = false,calendarData=null,daysInfoKey=null}) {
     let showMonthList = []
+    let showMonthListNoObject = []
     let startOfToday = new Date()
     let today = format(startOfToday, 'YYYY-MM-DD')
     let _usearr = []//用来判断传入的数据最早的日期
@@ -141,6 +166,9 @@ export function getDays ({year, month, value, isRange = false, rangeBegin, range
     let _useData = getCalendarInfo(calendarData,daysInfoKey,startOfToday,_usearr)
     let _lastDateHasData = format(_usearr[0]?_usearr[0]:startOfToday, 'YYYY-MM-DD')
     showMonthList =  getShowMonthList(_usearr,_useData)
+	showMonthList.forEach(function(v){
+		showMonthListNoObject.push(v.m)
+    })
     startOfToday.setHours(0, 0, 0, 0)
     let trueJumpDate = _lastDateHasData
     if((new Date(_lastDateHasData))<=(new Date(value))){
@@ -286,6 +314,7 @@ export function getDays ({year, month, value, isRange = false, rangeBegin, range
     month: month,
     month_str: month + 1,
     days: temp,
-    showMonthList:showMonthList
+    showMonthList:showMonthList,
+    showMonthListNoObject:showMonthListNoObject
   }
 }
