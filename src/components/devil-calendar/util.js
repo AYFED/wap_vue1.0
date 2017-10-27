@@ -37,7 +37,7 @@ export function getFestival(newDate) {
 
 //国历节日
 
-    for (let ii=0,jj=lFtv.length;ii<jj;ii++)
+    for (let ii=0,jj=sFtv.length;ii<jj;ii++)
 
         if (sFtv[ii].match(/^(\d{2})(\d{2})([\s\*])(.+)$/)) {
 

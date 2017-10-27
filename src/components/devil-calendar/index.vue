@@ -198,28 +198,34 @@ export default {
           this.alertTd = []
           this.alertTd.push(ob)
           this.afterselectedfunc(this.seletedDates)
-        }else{
-          if(this.alertTd.length<2){
-            if(this.alertTd.length>0){
-              this.alertTd[0].cls = 'current'
-            }
-            ob.cls = 'current'
-            this.alertTd.push(ob)
-          }else{
-            this.alertTd = []
-            ob.cls = 'current'
-            this.alertTd.push(ob)
-          }
-            if(this.alertTd.length>1){
-              this.selecteddays = []
-              let limitobj = this.takeLimit(this.alertTd[0],this.alertTd[1])
-              if(limitobj.hasmidle){
-                for(let p=limitobj.min,q=limitobj.max-1;p<q;p++){
-                    this.trueusecalendars[p].cls = 'btw'
-                    this.selecteddays.push(this.trueusecalendars[p])
+          this.afterCellClickfunc(this.seletedDates)
+        }else {
+            if (this.alertTd.length < 2) {
+                if (this.alertTd.length > 0) {
+                    this.alertTd[0].cls = 'current'
                 }
-              }
-              this.afterselectedfunc(this.seletedDates)
+                ob.cls = 'current'
+                this.alertTd.push(ob)
+            } else {
+                this.alertTd = []
+                ob.cls = 'current'
+                this.alertTd.push(ob)
+            }
+            if (this.alertTd.length > 1) {
+                this.selecteddays = []
+                let limitobj = this.takeLimit(this.alertTd[0], this.alertTd[1])
+                if (limitobj.hasmidle) {
+                    for (let p = limitobj.min, q = limitobj.max - 1; p < q; p++) {
+                        this.trueusecalendars[p].cls = 'btw'
+                        this.selecteddays.push(this.trueusecalendars[p])
+                    }
+                }
+                this.afterselectedfunc(this.seletedDates)
+            }
+            if(this.alertTd.length == 1){
+                this.afterCellClickfunc([ob.daystr])
+            }else{
+                this.afterCellClickfunc(this.seletedDates)
             }
         }
       }
@@ -272,7 +278,7 @@ export default {
           }
           try{
               if(document.querySelector(_strr)){
-                  let _topnum = document.querySelector(_strr).offsetTop
+                  let _topnum = document.querySelector(_strr).offsetTop-30
                   document.querySelector('.contenttable').scrollTop = _topnum
               }
           }catch(e){
@@ -340,7 +346,6 @@ export default {
     canuseMonth:function(){
       let _arr = []
       let monthObj = {}
-      let monthObjArr = []
       if(this.calendarDateRange && this.calendarDateRange.length>0){
         let _usearr = this.calendarDateRange
         if(this.dateRangeMode){
@@ -353,13 +358,14 @@ export default {
         }
         for(let tt in monthObj){
           if(monthObj[tt].hasOwnProperty('year')){
-              _arr.push(monthObj[tt])
+            let _ttobj = monthObj[tt]
+            if(_arr.length>0 && (_ttobj['dt']>_arr[_arr.length-1]['dt'])){
+              _arr.push({year:_ttobj['year'],month:_ttobj['month'],dt:_ttobj['dt']})
+            }else{
+              _arr.unshift({year:_ttobj['year'],month:_ttobj['month'],dt:_ttobj['dt']})
+            }
           }
         }
-        //按照日期排序
-        _arr.sort(function(a,b){
-            return a.dt-b.dt
-        })
       }else{//没有给定区间的情况默认从当天开始根据配置生成月份
           for(let num=0;num<this.calnum;num++){
               let _newdate = new Date(this.limitdate.getFullYear(),this.limitdate.getMonth()+num,1)
@@ -390,19 +396,19 @@ export default {
 
 <style>
   .toptable {
-    z-index:2;
     padding: 0 10px;
     background-color: #F5F5F5;
     background: #F5F5F5;
     position: fixed;
     width: 100%;
+    z-index: 1;
     box-sizing: border-box
   }
   .contenttable{
     position: absolute;
-    top: 30px;
+    top:0;
     left: 0;
-    padding: 2px 10px 0 10px;
+    padding: 31px 10px 0 10px;
     width: 100%;
     height: 100%;
     box-sizing: border-box;

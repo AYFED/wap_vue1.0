@@ -4,7 +4,7 @@
     <table>
       <thead v-show="!hideWeekList">
         <tr class="calendar-month-bar">
-          <th @click="goToMonth(showMonthList[dk]-1,$index)" v-for="dk in 7" class="{{$index==currentIndex?'weekend':''}}"><span>{{showMonthList[dk]?showMonthList[dk]+'月':''}}</span></th>
+          <th @click="goToMonth(showMonthList[dk].m-1,showMonthList[dk].y,$index)" v-for="dk in 7" class="{{$index==currentIndex?'weekend':''}}"><span>{{showMonthListNoObject[dk]?showMonthListNoObject[dk]+'月':''}}</span></th>
         </tr>
         <tr class="calendar-weeks-bar" v-show="!tbodyshow">
           <th v-for="(index, week) in weeksList" class="{{($index==0||$index==(weeksList.length-1))?'weekend':''}}"><span>{{week}}</span></th>
@@ -46,7 +46,8 @@ export default {
       today: format(new Date(), 'YYYY-MM-DD'),
       months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
       weeksList:['日', '一', '二', '三', '四', '五', '六 '],
-      showMonthList:[]
+      showMonthList:[],
+      showMonthListNoObject:[]
     }
   },
   ready () {
@@ -143,6 +144,7 @@ export default {
       this.year = data.year
       this.month = data.month
       this.showMonthList = data.showMonthList
+      this.showMonthListNoObject = data.showMonthListNoObject
     },
     formatDate: (year, month, child) => {
       return [year, zero(month + 1), zero(child.day)].join('-')
@@ -168,15 +170,11 @@ export default {
     go (year, month) {
       this.render(year, month)
     },
-    goToMonth(trueMonth,idx){
+    goToMonth(trueMonth,trueYear,idx){
       if(!isNaN(trueMonth)){
         this.beforeMonthChange(trueMonth,idx)
         this.currentIndex = idx
-        if(trueMonth>11){
-          this.go(this.year+1, trueMonth)
-        }else{
-          this.go(this.year, trueMonth)
-        }
+        this.go(trueYear, trueMonth)
       }
     },
     select (k1, k2) {
@@ -207,7 +205,6 @@ export default {
   padding-left:20px;
   font-weight:100;
   line-height: 38px;
-  z-index: 9;
 }
 .calendar-month-bar{
   background-color: #F5F5F5;
