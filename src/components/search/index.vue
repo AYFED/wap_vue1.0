@@ -1,19 +1,15 @@
 <template>
-  <div class="ay-search-box" :class="{'ay-search-fixed':isFixed}" :style="{top: isFixed ? top : ''}">
+  <div class="ay-search-box" :class="{'ay-search-fixed':isFixed}" :style="{top: isFixed ? top : ''}" @click="upload">
     <div class="ay_search_bar" id="search_bar" :class="{ay_search_focusing: !isCancel}">
       <form class="ay_search_outer" @submit.prevent="$emit('on-submit', value)">
         <div class="ay-search-mask" @click="touch" v-show="!isFixed || autoFixed"></div>
         <div class="ay_search_inner">
           <i class="ay_icon_search"></i>
-          <input type="search"   class="ay_search_input" id="search_input" :placeholder="placeholder" autocomplete="off" :required="required" v-model="value" v-el:input
+          <input type="search"   class="ay_search_input" :placeholder="placeholder" autocomplete="off" :required="required" v-model="value" v-el:input
           @focus="isFocus = true"
           @blur="isFocus = false"/>
           <a href="javascript:" class="ay_icon_clear" id="search_clear" @click="clear"></a>
         </div>
-        <!--<label for="search_input" class="ay_search_text" id="search_text" v-show="!isFocus && !value">-->
-          <!--<i class="ay_icon_search"></i>-->
-          <!--<span>{{placeholder}}</span>-->
-        <!--</label>-->
       </form>
       <a href="javascript:" class="ay_search_cancel" id="search_cancel" @click="cancel">{{cancelText}}</a>
     </div>
@@ -69,6 +65,9 @@ export default {
     }
   },
   methods: {
+    upload (){
+      this.setFocus()
+    },
     clear () {
       this.value = ''
       this.isFocus = true
@@ -77,7 +76,6 @@ export default {
     },
     cancel (e) {
       e.stopPropagation()
-//      debugger
       this.value = ''
       this.isCancel = true
       this.isFixed = false
@@ -90,7 +88,7 @@ export default {
 //      this.isFixed = false
     },
     touch () {
-      document.querySelector('#search_input').focus()
+      this.setFocus()
       this.isCancel = false
       this.isResult = true
       if (this.autoFixed) {
