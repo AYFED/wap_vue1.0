@@ -58,14 +58,14 @@ export default {
     },
     barLeft () {
       if(this.clearance != 0) {
-          if(this.index == 0)  return `-${this.clearance}px`
+          if(this.index == 0)  return `${this.clearance}px`
           else  return `${this.index * (100 / this.number)}%`
       }
       return `${this.index * (100 / this.number)}%`
     },
     barRight () {
       if(this.clearance != 0) {
-        if(this.index == this.number-1)  {return `-${this.clearance}px`}
+        if(this.index == this.number-1)  {return `${this.clearance}px`}
         else  return `${(this.number - this.index - 1) * (100 / this.number)}%`
       }
       return `${(this.number - this.index - 1) * (100 / this.number)}%`
