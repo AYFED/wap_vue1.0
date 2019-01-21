@@ -19,6 +19,7 @@
       <cell title="遨游网" link="http://m.aoyou.com" value="aoyou.com">
         <span class="demo-icon" slot="icon" style="color:#35495e;">&#xe62f;</span>
       </cell>
+      <p class="ay-fix-sl">测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据</p>
     </group>
   </div>
 </template>
@@ -40,7 +41,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
 @import 'style.css';
 .center {
   margin-top: 20px;
@@ -54,5 +55,17 @@ export default {
 body {
   font-family: Helvetica, sans-serif;
   background-color: #fbf9fe;
+}
+
+.ay-fix-sl{
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  height: 50px;
+  line-height: 25px;
+  margin: 0 20px;
+  display: -webkit-box;
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
 }
 </style>
